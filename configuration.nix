@@ -47,10 +47,12 @@
     enable = true;
     openDefaultPorts = true;
     dataDir = "/var/lib/syncthing";
+    guiPasswordFile = "/root/syncthing-gui-password";
 
     settings = {
       gui = {
         address = "127.0.0.1:8384";
+        user = "admin";
         theme = "black";
       };
 

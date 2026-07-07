@@ -16,3 +16,6 @@ nixos-rebuild switch --flake .#server --target-host root@169.239.182.193
 
 The Miniflux admin credentials file is not committed. Create it on the server at
 `/var/lib/miniflux/admin-credentials` before first start.
+
+The Syncthing GUI password is also not committed. Create it on the server at
+`/root/syncthing-gui-password`.
