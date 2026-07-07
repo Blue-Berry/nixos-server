@@ -65,7 +65,7 @@
 
       folders = {
         Documents = {
-          path = "/root/Documents";
+          path = "/var/lib/syncthing/Documents";
           devices = [
             "phone"
             "personal"
@@ -75,7 +75,7 @@
         };
 
         library = {
-          path = "/root/library";
+          path = "/var/lib/syncthing/library";
           devices = [
             "phone"
             "personal"
@@ -89,7 +89,7 @@
 
   services.calibre-server = {
     enable = true;
-    libraries = ["/root/library"];
+    libraries = ["/var/lib/syncthing/library"];
     openFirewall = false;
     port = 8080;
     user = "syncthing";
@@ -107,7 +107,9 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /var/lib/miniflux 0750 miniflux miniflux - -"
+    "d /var/lib/miniflux 0770 miniflux miniflux - -"
+    "d /var/lib/syncthing/Documents 0770 syncthing syncthing - -"
+    "d /var/lib/syncthing/library 0770 syncthing syncthing - -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
@@ -119,5 +121,6 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIApCooLFWxg2nQbRFImnxOBdp5QfsNc+qZ138utzcD5Z liamandberry@gmail.com"
   ];
 
+  environment.enableAllTerminfo = true;
   system.stateVersion = "24.05";
 }
