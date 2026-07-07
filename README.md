@@ -18,4 +18,5 @@ The Miniflux admin credentials file is not committed. Create it on the server at
 `/var/lib/miniflux/admin-credentials` before first start.
 
 The Syncthing GUI password is also not committed. Create it on the server at
-`/root/syncthing-gui-password`.
+`/var/lib/syncthing/syncthing-gui-password`, owned by `syncthing:syncthing` and
+mode `0400`.

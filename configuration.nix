@@ -46,8 +46,9 @@
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
+    user = "root";
     dataDir = "/var/lib/syncthing";
-    guiPasswordFile = "/root/syncthing-gui-password";
+    guiPasswordFile = "/var/lib/syncthing/syncthing-gui-password";
 
     settings = {
       gui = {
@@ -92,8 +93,8 @@
     libraries = ["/var/lib/syncthing/library"];
     openFirewall = false;
     port = 8080;
-    user = "syncthing";
-    group = "syncthing";
+    user = "root";
+    group = "root";
     host = "127.0.0.1";
   };
 
@@ -108,8 +109,6 @@
 
   systemd.tmpfiles.rules = [
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
-    "d /var/lib/syncthing/Documents 0770 syncthing syncthing - -"
-    "d /var/lib/syncthing/library 0770 syncthing syncthing - -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
