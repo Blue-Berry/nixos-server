@@ -21,7 +21,7 @@
       "8.8.8.8"
       "1.1.1.1"
     ];
-    search = [ "host-ww.net" ];
+    search = ["host-ww.net"];
 
     interfaces.eth0.ipv4.addresses = [
       {
@@ -82,7 +82,7 @@
 
   services.calibre-server = {
     enable = true;
-    libraries = [ "/var/lib/syncthing/library" ];
+    libraries = ["/var/lib/syncthing/library"];
     openFirewall = false;
     port = 8080;
     user = "syncthing";
