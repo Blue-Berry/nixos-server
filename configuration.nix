@@ -13,6 +13,11 @@
     efiInstallAsRemovable = true;
   };
 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   networking = {
     hostName = "server";
     usePredictableInterfaceNames = false;
@@ -58,7 +63,7 @@
 
       folders = {
         Documents = {
-          path = "/var/lib/syncthing/Documents";
+          path = "/root/Documents";
           devices = [
             "phone"
             "personal"
@@ -68,7 +73,7 @@
         };
 
         library = {
-          path = "/var/lib/syncthing/library";
+          path = "/root/library";
           devices = [
             "phone"
             "personal"
@@ -82,7 +87,7 @@
 
   services.calibre-server = {
     enable = true;
-    libraries = ["/var/lib/syncthing/library"];
+    libraries = ["/root/library"];
     openFirewall = false;
     port = 8080;
     user = "syncthing";
@@ -93,7 +98,7 @@
   services.miniflux = {
     enable = true;
     createDatabaseLocally = true;
-    adminCredentialsFile = "/var/lib/miniflux/admin-credentials";
+    adminCredentialsFile = "/root/miniflux-admin-credentials";
     config = {
       LISTEN_ADDR = "127.0.0.1:8081";
     };
