@@ -47,7 +47,7 @@
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
-    user = "syncthing";
+    user = "media";
     group = "media";
     dataDir = "/var/lib/syncthing";
 
@@ -94,7 +94,7 @@
     libraries = ["/var/lib/syncthing/library"];
     openFirewall = true;
     port = 8080;
-    user = "calibre-server";
+    user = "media";
     group = "media";
     host = "0.0.0.0";
     auth = {
@@ -113,10 +113,6 @@
     };
   };
 
-  # Ensure files created by either service are group-writable for the shared group.
-  systemd.services.syncthing.serviceConfig.UMask = "0002";
-  systemd.services.calibre-server.serviceConfig.UMask = "0002";
-
   networking.firewall.allowedTCPPorts = [8081];
 
   services.duckdns = {
@@ -127,9 +123,13 @@
 
   systemd.tmpfiles.rules = [
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
-    "d /var/lib/syncthing 0750 syncthing media - -"
-    "d /var/lib/syncthing/library 2770 syncthing media - -"
-    "d /var/lib/calibre-server 0750 calibre-server media - -"
+    "d /var/lib/syncthing 0750 media media - -"
+    "d /var/lib/syncthing/library 2770 media media - -"
+    # Recursively fix ownership after migrating both services to the media user.
+    "Z /var/lib/syncthing - media media - -"
+    "Z /var/lib/syncthing/library - media media - -"
+    "d /var/lib/calibre-server 0750 media media - -"
+    "Z /var/lib/calibre-server - media media - -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
@@ -137,7 +137,10 @@
     pkgs.gitMinimal
   ];
 
-  # Shared group used by Syncthing and Calibre to access /var/lib/syncthing/library.
+  users.users.media = {
+    isSystemUser = true;
+    group = "media";
+  };
   users.groups.media = {};
 
   users.users.root.openssh.authorizedKeys.keys = [
