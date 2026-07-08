@@ -18,6 +18,7 @@
     "flakes"
   ];
 
+  networking.firewall.enable = true;
   networking = {
     hostName = "server";
     usePredictableInterfaceNames = false;
@@ -91,11 +92,11 @@
   services.calibre-server = {
     enable = true;
     libraries = ["/var/lib/syncthing/library"];
-    openFirewall = false;
+    openFirewall = true;
     port = 8080;
     user = "root";
     group = "root";
-    host = "127.0.0.1";
+    host = "0.0.0.0";
   };
 
   services.miniflux = {
@@ -103,8 +104,16 @@
     createDatabaseLocally = true;
     adminCredentialsFile = "/root/miniflux-admin-credentials";
     config = {
-      LISTEN_ADDR = "127.0.0.1:8081";
+      LISTEN_ADDR = "0.0.0.0:8081";
     };
+  };
+
+  networking.firewall.allowedTCPPorts = [8081];
+
+  services.duckdns = {
+    enable = true;
+    domains = ["yggdra"]; # yggdra.duckdns.org
+    tokenFile = "/root/duckdns-token";
   };
 
   systemd.tmpfiles.rules = [
@@ -118,6 +127,7 @@
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIApCooLFWxg2nQbRFImnxOBdp5QfsNc+qZ138utzcD5Z liamandberry@gmail.com"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF4Np5JlKC3AKJ2d+c3XN7i8KI+Yk/29gDBTAUly20T liamandberry@gmail.com"
   ];
 
   environment.enableAllTerminfo = true;
