@@ -105,11 +105,11 @@
   services.calibre-server = {
     enable = true;
     libraries = ["/var/lib/syncthing/library"];
-    openFirewall = true;
     port = 8080;
+    openFirewall = false;
     user = "media";
     group = "media";
-    host = "0.0.0.0";
+    host = "127.0.0.1";
     auth = {
       enable = true;
       mode = "basic";
@@ -122,10 +122,10 @@
     user = "media";
     group = "media";
     listen = {
-      ip = "0.0.0.0";
+      ip = "127.0.0.1";
       port = 8081;
     };
-    openFirewall = true;
+    openFirewall = false;
     options = {
       calibreLibrary = "/var/lib/syncthing/library";
       enableBookUploading = true;
@@ -137,9 +137,9 @@
     enable = true;
     user = "media";
     group = "media";
-    host = "0.0.0.0";
+    host = "127.0.0.1";
     port = 8082;
-    openFirewall = true;
+    openFirewall = false;
   };
 
   services.miniflux = {
@@ -147,15 +147,42 @@
     createDatabaseLocally = true;
     adminCredentialsFile = "/root/miniflux-admin-credentials";
     config = {
-      LISTEN_ADDR = "0.0.0.0:8083";
+      LISTEN_ADDR = "127.0.0.1:8083";
     };
   };
 
-  networking.firewall.allowedTCPPorts = [8083];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
+
+  services.caddy = {
+    enable = true;
+    virtualHosts = {
+      "yggdra-calibre.duckdns.org".extraConfig = ''
+        reverse_proxy localhost:8081
+      '';
+      "yggdra-opds.duckdns.org".extraConfig = ''
+        reverse_proxy localhost:8080
+      '';
+      "yggdra-rss.duckdns.org".extraConfig = ''
+        reverse_proxy localhost:8083
+      '';
+      "yggdra-audio.duckdns.org".extraConfig = ''
+        reverse_proxy localhost:8082
+      '';
+    };
+  };
 
   services.duckdns = {
     enable = true;
-    domains = ["yggdra"]; # yggdra.duckdns.org
+    domains = [
+      "yggdra"
+      "yggdra-opds"
+      "yggdra-calibre"
+      "yggdra-rss"
+      "yggdra-audio"
+    ]; # yggdra.duckdns.org
     tokenFile = "/root/duckdns-token";
   };
 
