@@ -47,7 +47,8 @@
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
-    user = "root";
+    user = "syncthing";
+    group = "media";
     dataDir = "/var/lib/syncthing";
 
     settings = {
@@ -93,8 +94,8 @@
     libraries = ["/var/lib/syncthing/library"];
     openFirewall = true;
     port = 8080;
-    user = "root";
-    group = "root";
+    user = "calibre-server";
+    group = "media";
     host = "0.0.0.0";
     auth = {
       enable = true;
@@ -112,6 +113,10 @@
     };
   };
 
+  # Ensure files created by either service are group-writable for the shared group.
+  systemd.services.syncthing.serviceConfig.UMask = "0002";
+  systemd.services.calibre-server.serviceConfig.UMask = "0002";
+
   networking.firewall.allowedTCPPorts = [8081];
 
   services.duckdns = {
@@ -122,13 +127,18 @@
 
   systemd.tmpfiles.rules = [
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
-    "d /var/lib/calibre-server 0750 root root -"
+    "d /var/lib/syncthing 0750 syncthing media - -"
+    "d /var/lib/syncthing/library 2770 syncthing media - -"
+    "d /var/lib/calibre-server 0750 calibre-server media - -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
     pkgs.gitMinimal
   ];
+
+  # Shared group used by Syncthing and Calibre to access /var/lib/syncthing/library.
+  users.groups.media = {};
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIApCooLFWxg2nQbRFImnxOBdp5QfsNc+qZ138utzcD5Z liamandberry@gmail.com"
