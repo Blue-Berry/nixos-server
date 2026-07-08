@@ -49,7 +49,6 @@
     openDefaultPorts = true;
     user = "root";
     dataDir = "/var/lib/syncthing";
-    guiPasswordFile = "/var/lib/syncthing/syncthing-gui-password";
 
     settings = {
       gui = {
@@ -97,6 +96,11 @@
     user = "root";
     group = "root";
     host = "0.0.0.0";
+    auth = {
+      enable = true;
+      mode = "basic";
+      userDb = "/var/lib/calibre-server/users.sqlite";
+    };
   };
 
   services.miniflux = {
@@ -118,6 +122,7 @@
 
   systemd.tmpfiles.rules = [
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
+    "d /var/lib/calibre-server 0750 root root -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
