@@ -72,6 +72,7 @@
             "phone"
             "personal"
             "iPad"
+            "work"
           ];
           ignorePerms = false;
         };
@@ -82,6 +83,18 @@
             "phone"
             "personal"
             "iPad"
+            "work"
+          ];
+          ignorePerms = false;
+        };
+
+        Audiobooks = {
+          path = "/var/lib/syncthing/audiobooks";
+          devices = [
+            "phone"
+            "personal"
+            "iPad"
+            "work"
           ];
           ignorePerms = false;
         };
@@ -104,16 +117,41 @@
     };
   };
 
+  services.calibre-web = {
+    enable = true;
+    user = "media";
+    group = "media";
+    listen = {
+      ip = "0.0.0.0";
+      port = 8081;
+    };
+    openFirewall = true;
+    options = {
+      calibreLibrary = "/var/lib/syncthing/library";
+      enableBookUploading = true;
+      enableBookConversion = true;
+    };
+  };
+
+  services.audiobookshelf = {
+    enable = true;
+    user = "media";
+    group = "media";
+    host = "0.0.0.0";
+    port = 8082;
+    openFirewall = true;
+  };
+
   services.miniflux = {
     enable = true;
     createDatabaseLocally = true;
     adminCredentialsFile = "/root/miniflux-admin-credentials";
     config = {
-      LISTEN_ADDR = "0.0.0.0:8081";
+      LISTEN_ADDR = "0.0.0.0:8083";
     };
   };
 
-  networking.firewall.allowedTCPPorts = [8081];
+  networking.firewall.allowedTCPPorts = [8083];
 
   services.duckdns = {
     enable = true;
@@ -125,11 +163,8 @@
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
     "d /var/lib/syncthing 0750 media media - -"
     "d /var/lib/syncthing/library 2770 media media - -"
-    # Recursively fix ownership after migrating both services to the media user.
-    "Z /var/lib/syncthing - media media - -"
-    "Z /var/lib/syncthing/library - media media - -"
+    "d /var/lib/syncthing/audiobooks 2770 media media - -"
     "d /var/lib/calibre-server 0750 media media - -"
-    "Z /var/lib/calibre-server - media media - -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
