@@ -137,6 +137,23 @@
     };
   };
 
+  # Calibre-server does not auto-detect library changes from Syncthing, so
+  # restart it hourly to pick up newly synced books.
+  systemd.timers.calibre-server-reload = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnCalendar = "hourly";
+      Persistent = true;
+    };
+  };
+
+  systemd.services.calibre-server-reload = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.systemd}/bin/systemctl restart calibre-server.service";
+    };
+  };
+
   services.calibre-web = {
     enable = true;
     user = "media";
