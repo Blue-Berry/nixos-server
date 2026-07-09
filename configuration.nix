@@ -3,7 +3,8 @@
   modulesPath,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -35,7 +36,7 @@
       "8.8.8.8"
       "1.1.1.1"
     ];
-    search = ["host-ww.net"];
+    search = [ "host-ww.net" ];
 
     interfaces.eth0.ipv4.addresses = [
       {
@@ -124,7 +125,7 @@
 
   services.calibre-server = {
     enable = true;
-    libraries = ["/var/lib/syncthing/library"];
+    libraries = [ "/var/lib/syncthing/library" ];
     port = 8080;
     openFirewall = false;
     user = "media";
@@ -140,7 +141,7 @@
   # Calibre-server does not auto-detect library changes from Syncthing, so
   # restart it hourly to pick up newly synced books.
   systemd.timers.calibre-server-reload = {
-    wantedBy = ["timers.target"];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "hourly";
       Persistent = true;
@@ -179,6 +180,47 @@
     openFirewall = false;
   };
 
+  services.jellyfin = {
+    enable = true;
+    user = "media";
+    group = "media";
+    openFirewall = false;
+  };
+
+  # Download client and *arr managers for Jellyfin. All run as the media user
+  # so they share the /var/lib/media download and library directories.
+  services.qbittorrent = {
+    enable = true;
+    user = "media";
+    group = "media";
+    webuiPort = 8084;
+    openFirewall = false;
+    serverConfig = {
+      LegalNotice.Accepted = true;
+      Preferences.Downloads.SavePath = "/var/lib/media/downloads";
+    };
+  };
+
+  services.sonarr = {
+    enable = true;
+    user = "media";
+    group = "media";
+    openFirewall = false;
+  };
+
+  services.radarr = {
+    enable = true;
+    user = "media";
+    group = "media";
+    openFirewall = false;
+  };
+
+  # Indexer manager for Sonarr/Radarr. Kept local-only (no public subdomain).
+  services.prowlarr = {
+    enable = true;
+    openFirewall = false;
+  };
+
   services.miniflux = {
     enable = true;
     createDatabaseLocally = true;
@@ -196,6 +238,9 @@
   services.caddy = {
     enable = true;
     virtualHosts = {
+      "yggdra.duckdns.org".extraConfig = ''
+        reverse_proxy localhost:8096
+      '';
       "yggdra-calibre.duckdns.org".extraConfig = ''
         reverse_proxy localhost:8081
       '';
@@ -229,6 +274,10 @@
     "d /var/lib/syncthing/library 2770 media media - -"
     "d /var/lib/syncthing/audiobooks 2770 media media - -"
     "d /var/lib/calibre-server 0750 media media - -"
+    "d /var/lib/media 0750 media media - -"
+    "d /var/lib/media/downloads 2770 media media - -"
+    "d /var/lib/media/tv 2770 media media - -"
+    "d /var/lib/media/movies 2770 media media - -"
   ];
 
   environment.systemPackages = map lib.lowPrio [
@@ -240,7 +289,7 @@
     isSystemUser = true;
     group = "media";
   };
-  users.groups.media = {};
+  users.groups.media = { };
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIApCooLFWxg2nQbRFImnxOBdp5QfsNc+qZ138utzcD5Z liamandberry@gmail.com"

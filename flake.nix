@@ -5,19 +5,21 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {
-    nixpkgs,
-    disko,
-    ...
-  }: {
-    nixosConfigurations.server = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        disko.nixosModules.disko
-        ./hardware-configuration.nix
-        ./disk-config.nix
-        ./configuration.nix
-      ];
+  outputs =
+    {
+      nixpkgs,
+      disko,
+      ...
+    }:
+    {
+      nixosConfigurations.server = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          disko.nixosModules.disko
+          ./hardware-configuration.nix
+          ./disk-config.nix
+          ./configuration.nix
+        ];
+      };
     };
-  };
 }
