@@ -18,6 +18,14 @@
     "flakes"
   ];
 
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 3d";
+  };
+
+  nix.optimise.automatic = true;
+
   networking.firewall.enable = true;
   networking = {
     hostName = "server";
@@ -43,6 +51,12 @@
   };
 
   services.openssh.enable = true;
+
+  services.fail2ban = {
+    enable = true;
+    maxretry = 3;
+    bantime = "1h";
+  };
 
   services.syncthing = {
     enable = true;
@@ -211,5 +225,14 @@
   ];
 
   environment.enableAllTerminfo = true;
+
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:Blue-Berry/nixos-server#server";
+    allowReboot = false;
+    dates = "04:00";
+    randomizedDelaySec = "45min";
+  };
+
   system.stateVersion = "24.05";
 }
