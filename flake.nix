@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    publetry.url = "github:Blue-Berry/publetry";
+    publetry.url = "git+https://github.com/Blue-Berry/publetry.git?lfs=1";
   };
 
   outputs =

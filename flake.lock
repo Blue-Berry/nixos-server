@@ -267,16 +267,18 @@
       },
       "locked": {
         "lastModified": 1783713201,
-        "narHash": "sha256-r5sMaexuicLH16N9cPumOg43EYo86kwLDbtz9nRULkU=",
-        "owner": "Blue-Berry",
-        "repo": "publetry",
+        "lfs": true,
+        "narHash": "sha256-LZqmF3mgUfC/MqDP2KufVaiTGhR1oNrId05LXpO+NoQ=",
+        "ref": "refs/heads/main",
         "rev": "2a6651a46f85f1919b29b63ec03c7fc6ec32b769",
-        "type": "github"
+        "revCount": 17,
+        "type": "git",
+        "url": "https://github.com/Blue-Berry/publetry.git"
       },
       "original": {
-        "owner": "Blue-Berry",
-        "repo": "publetry",
-        "type": "github"
+        "lfs": true,
+        "type": "git",
+        "url": "https://github.com/Blue-Berry/publetry.git"
       }
     },
     "root": {
