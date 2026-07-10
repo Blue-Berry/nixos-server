@@ -2,8 +2,12 @@
   lib,
   modulesPath,
   pkgs,
+  publetry,
   ...
 }:
+let
+  publetryPackage = publetry.packages.${pkgs.system}.default;
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -18,6 +22,7 @@
     "nix-command"
     "flakes"
   ];
+  nix.settings.allow-import-from-derivation = true;
 
   nix.gc = {
     automatic = true;
@@ -230,9 +235,24 @@
     };
   };
 
+  systemd.services.publetry = {
+    description = "Publetry poetry server";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = "${publetryPackage}/bin/publetry-server 9999";
+      Restart = "on-failure";
+      DynamicUser = true;
+      PrivateTmp = true;
+      ProtectSystem = "strict";
+      ProtectHome = true;
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [
     80
     443
+    9999
   ];
 
   services.caddy = {
