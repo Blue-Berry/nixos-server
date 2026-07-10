@@ -90,11 +90,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1783279667,
-        "narHash": "sha256-/NAkDSsve+GNM0Bt6tleJdCGfsTlK89nPjkVOzZMo0s=",
+        "lastModified": 1783475452,
+        "narHash": "sha256-3S92fSuv32mjJz2Qb2F4405c21J55F4NIphz5K6hxco=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f205b5574fd0cb7da5b702a2da51507b7f4fdd1b",
+        "rev": "05988b07fb05cbcb50be6bce197b4b5f75b5e61b",
         "type": "github"
       },
       "original": {
@@ -266,11 +266,11 @@
         "opam-repository": "opam-repository"
       },
       "locked": {
-        "lastModified": 1783710047,
-        "narHash": "sha256-wBQPuzT22/X02S1R2GCd2ZSw+MhO+tssRmy43LhUMJI=",
+        "lastModified": 1783713201,
+        "narHash": "sha256-r5sMaexuicLH16N9cPumOg43EYo86kwLDbtz9nRULkU=",
         "owner": "Blue-Berry",
         "repo": "publetry",
-        "rev": "6d7f26f0da1a32622b982131cc49941c6084c857",
+        "rev": "2a6651a46f85f1919b29b63ec03c7fc6ec32b769",
         "type": "github"
       },
       "original": {
