@@ -249,6 +249,23 @@ in
     };
   };
 
+  virtualisation.oci-containers = {
+    backend = "podman";
+    containers.kosync = {
+      image = "koreader/kosync:latest";
+      autoStart = true;
+      ports = [ "127.0.0.1:17200:17200" ];
+      environment = {
+        ENABLE_USER_REGISTRATION = "true";
+      };
+      volumes = [
+        "/var/lib/kosync/logs/app:/app/koreader-sync-server/logs"
+        "/var/lib/kosync/logs/redis:/var/log/redis"
+        "/var/lib/kosync/redis:/var/lib/redis"
+      ];
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [
     80
     443
@@ -259,6 +276,12 @@ in
     enable = true;
     virtualHosts = {
       "yggdra.duckdns.org".extraConfig = ''
+        @kosync path /kosync /kosync/*
+        handle @kosync {
+          uri strip_prefix /kosync
+          reverse_proxy localhost:17200
+        }
+
         reverse_proxy localhost:8096
       '';
       "yggdra-calibre.duckdns.org".extraConfig = ''
@@ -289,6 +312,11 @@ in
   };
 
   systemd.tmpfiles.rules = [
+    "d /var/lib/kosync 0750 root root - -"
+    "d /var/lib/kosync/logs 0750 root root - -"
+    "d /var/lib/kosync/logs/app 0750 root root - -"
+    "d /var/lib/kosync/logs/redis 0750 root root - -"
+    "d /var/lib/kosync/redis 0750 root root - -"
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
     "d /var/lib/syncthing 0750 media media - -"
     "d /var/lib/syncthing/library 2770 media media - -"
