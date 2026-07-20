@@ -331,6 +331,8 @@ in
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
     pkgs.gitMinimal
+    pkgs.neovim
+    pkgs.net-tools
   ];
 
   users.users.media = {
