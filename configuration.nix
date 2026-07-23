@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   modulesPath,
   pkgs,
@@ -192,8 +193,6 @@ in
     openFirewall = false;
   };
 
-  # Download client and *arr managers for Jellyfin. All run as the media user
-  # so they share the /var/lib/media download and library directories.
   services.qbittorrent = {
     enable = true;
     user = "media";
@@ -202,9 +201,36 @@ in
     openFirewall = false;
     serverConfig = {
       LegalNotice.Accepted = true;
-      Preferences.Downloads.SavePath = "/var/lib/media/downloads";
+      Preferences = {
+        Downloads.SavePath = "/var/lib/media/downloads";
+        WebUI = {
+          Username = "admin";
+          Password_PBKDF2 = "@ByteArray(1XOlcj/m4SIMAGdvrInGcQ==:zfdjBRoHIUiq1xjGBnzofkOUbBqS99t2m4MfYrUdHerDfkUWO5e9+HNvkdTGc4BJDFD3JvfCiUm2JAL9uQIUmw==)";
+        };
+      };
     };
   };
+
+  # Inject the qBittorrent WebUI API key at runtime from a root-only secret file
+  systemd.services.qbittorrent.serviceConfig.ExecStartPre = lib.mkAfter [
+    "+${pkgs.writeShellScript "qbittorrent-inject-apikey" ''
+      set -euo pipefail
+      conf="${config.services.qbittorrent.profileDir}/qBittorrent/config/qBittorrent.conf"
+      keyfile=/root/qbit-apikey
+      if [ ! -r "$keyfile" ]; then
+        echo "qbittorrent-inject-apikey: $keyfile missing, skipping API key injection" >&2
+        exit 0
+      fi
+      tmp="$(${pkgs.coreutils}/bin/mktemp)"
+      ${pkgs.gawk}/bin/awk -v key="$(${pkgs.coreutils}/bin/cat "$keyfile")" '
+        { print }
+        /^\[Preferences\]$/ { print "WebUI\\APIKey=" key }
+      ' "$conf" > "$tmp"
+      # Truncate-in-place so the file keeps its original owner/mode (media, 0600).
+      ${pkgs.coreutils}/bin/cat "$tmp" > "$conf"
+      ${pkgs.coreutils}/bin/rm -f "$tmp"
+    ''}"
+  ];
 
   services.sonarr = {
     enable = true;
@@ -220,7 +246,6 @@ in
     openFirewall = false;
   };
 
-  # Indexer manager for Sonarr/Radarr. Kept local-only (no public subdomain).
   services.prowlarr = {
     enable = true;
     openFirewall = false;
