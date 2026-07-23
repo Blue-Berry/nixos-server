@@ -264,6 +264,18 @@ in
         "/var/lib/kosync/redis:/var/lib/redis"
       ];
     };
+
+    containers.audiobookrequest = {
+      image = "markbeep/audiobookrequest:1";
+      autoStart = true;
+      ports = [ "127.0.0.1:8085:8000" ];
+      environment = {
+        ABR_APP__DEFAULT_REGION = "uk";
+      };
+      volumes = [
+        "/var/lib/audiobookrequest:/config"
+      ];
+    };
   };
 
   networking.firewall.allowedTCPPorts = [
@@ -317,6 +329,7 @@ in
     "d /var/lib/kosync/logs/app 0750 root root - -"
     "d /var/lib/kosync/logs/redis 0750 root root - -"
     "d /var/lib/kosync/redis 0750 root root - -"
+    "d /var/lib/audiobookrequest 0750 root root - -"
     "d /var/lib/miniflux 0770 miniflux miniflux - -"
     "d /var/lib/syncthing 0750 media media - -"
     "d /var/lib/syncthing/library 2770 media media - -"
