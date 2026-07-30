@@ -266,12 +266,12 @@
         "opam-repository": "opam-repository"
       },
       "locked": {
-        "lastModified": 1785332704,
+        "lastModified": 1785339618,
         "lfs": true,
-        "narHash": "sha256-yHyAUzbrizYRrmqivCxuVyUTi8HYid++jQxCfBp9qFc=",
+        "narHash": "sha256-jj/ZmQXKO5oyNAsmfc7FVZeblgCarjJ9tRF7QqgZ3yo=",
         "ref": "refs/heads/main",
-        "rev": "cb68e341f762477cbb5b71f8ee7084b60dd1eeaa",
-        "revCount": 18,
+        "rev": "141357bbba3b8f5b940ece3f476839dd18c172cc",
+        "revCount": 19,
         "type": "git",
         "url": "https://github.com/Blue-Berry/publetry.git"
       },
