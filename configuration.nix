@@ -319,6 +319,20 @@ in
           reverse_proxy localhost:17200
         }
 
+        @publetry path /publetry /publetry/*
+        handle @publetry {
+          route {
+            header Access-Control-Allow-Origin "*"
+            header Access-Control-Allow-Methods "GET, OPTIONS"
+            header Access-Control-Allow-Headers "Content-Type"
+
+            @preflight method OPTIONS
+            respond @preflight 204
+            uri strip_prefix /publetry
+            reverse_proxy localhost:9999
+          }
+        }
+
         reverse_proxy localhost:8096
       '';
       "yggdra-calibre.duckdns.org".extraConfig = ''
