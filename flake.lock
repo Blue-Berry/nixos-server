@@ -1,5 +1,43 @@
 {
   "nodes": {
+    "bmpFromTxt": {
+      "inputs": {
+        "bytesrw-src": "bytesrw-src",
+        "dune-src": "dune-src",
+        "nixpkgs": "nixpkgs",
+        "webs-src": "webs-src"
+      },
+      "locked": {
+        "lastModified": 1785478205,
+        "narHash": "sha256-hAAXu2vpjLNYffPiXmPNSCS/C5Tk1c2jhIPxqt9wehI=",
+        "owner": "Blue-Berry",
+        "repo": "bmp-from-txt",
+        "rev": "21703bc4f9b19c35235e7632782f4a3eb991e745",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Blue-Berry",
+        "repo": "bmp-from-txt",
+        "type": "github"
+      }
+    },
+    "bytesrw-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781343949,
+        "narHash": "sha256-GHZf0ax5OpVDT+7uvRIiX0aoo4LEung/xuPum20H+X0=",
+        "ref": "refs/heads/main",
+        "rev": "d62c9007aa28f8da872a9662a6e95f9979bca38b",
+        "revCount": 102,
+        "type": "git",
+        "url": "https://erratique.ch/repos/bytesrw.git"
+      },
+      "original": {
+        "rev": "d62c9007aa28f8da872a9662a6e95f9979bca38b",
+        "type": "git",
+        "url": "https://erratique.ch/repos/bytesrw.git"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -17,6 +55,23 @@
       "original": {
         "owner": "nix-community",
         "repo": "disko",
+        "type": "github"
+      }
+    },
+    "dune-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784848773,
+        "narHash": "sha256-spmO36ySZxRXxnt32/XAVNSfkuBfZ1IdoqhYqULppoo=",
+        "owner": "ocaml",
+        "repo": "dune",
+        "rev": "83cd7b5dae9b48a14317ca6e2d46acda12ef36d4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ocaml",
+        "repo": "dune",
+        "rev": "83cd7b5dae9b48a14317ca6e2d46acda12ef36d4",
         "type": "github"
       }
     },
@@ -90,16 +145,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1785301185,
-        "narHash": "sha256-eoS3KQTO0aPWXZvIaRbRAzSSHW3l5wdMFXtT1ISfoKA=",
+        "lastModified": 1785318670,
+        "narHash": "sha256-dN6Ou5x/+23FZLEpYP3IffO+NyJFzUlGumt1uu3MMaY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9bc02893134c733dd85de46ee4fb2fac696b5529",
+        "rev": "0954f7ee2f6bb3dc7d4e3d0d8bcb8fd4bde4cfc5",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -154,6 +209,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1785301185,
+        "narHash": "sha256-eoS3KQTO0aPWXZvIaRbRAzSSHW3l5wdMFXtT1ISfoKA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9bc02893134c733dd85de46ee4fb2fac696b5529",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1751792365,
         "narHash": "sha256-J1kI6oAj25IG4EdVlg2hQz8NZTBNYvIS0l4wpr9KcUo=",
         "owner": "nixos",
@@ -173,7 +244,7 @@
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils_2",
         "mirage-opam-overlays": "mirage-opam-overlays",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-llvm17": "nixpkgs-llvm17",
         "nixpkgs-python38": "nixpkgs-python38",
         "nixpkgs-python39": "nixpkgs-python39",
@@ -283,8 +354,9 @@
     },
     "root": {
       "inputs": {
+        "bmpFromTxt": "bmpFromTxt",
         "disko": "disko",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "publetry": "publetry"
       }
     },
@@ -331,6 +403,23 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "webs-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773366124,
+        "narHash": "sha256-6/01MZvXGHEt986QcHchgpHaQIwGx1Ku4KF4bOsLgpo=",
+        "ref": "refs/heads/master",
+        "rev": "f3b4eb023678867332ad848d4c903d5147e49d71",
+        "revCount": 150,
+        "type": "git",
+        "url": "https://erratique.ch/repos/webs.git"
+      },
+      "original": {
+        "rev": "f3b4eb023678867332ad848d4c903d5147e49d71",
+        "type": "git",
+        "url": "https://erratique.ch/repos/webs.git"
       }
     }
   },

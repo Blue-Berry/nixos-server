@@ -4,10 +4,12 @@
   modulesPath,
   pkgs,
   publetry,
+  bmpFromTxt,
   ...
 }:
 let
   publetryPackage = publetry.packages.${pkgs.system}.default;
+  bmpFromTxtPackage = bmpFromTxt.packages.${pkgs.system}.default;
 in
 {
   imports = [
@@ -274,6 +276,21 @@ in
     };
   };
 
+  systemd.services.bmp-from-txt = {
+    description = "bmp-from-txt browser renderer";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = "${bmpFromTxtPackage}/bin/bmp-from-txt-web --listen 127.0.0.1:8086";
+      Restart = "on-failure";
+      DynamicUser = true;
+      PrivateTmp = true;
+      ProtectSystem = "strict";
+      ProtectHome = true;
+      NoNewPrivileges = true;
+    };
+  };
+
   virtualisation.oci-containers = {
     backend = "podman";
     containers.kosync = {
@@ -347,6 +364,9 @@ in
       "yggdra-audio.duckdns.org".extraConfig = ''
         reverse_proxy localhost:8082
       '';
+      "yggdra-bmp.duckdns.org".extraConfig = ''
+        reverse_proxy 127.0.0.1:8086
+      '';
     };
   };
 
@@ -358,6 +378,7 @@ in
       "yggdra-calibre"
       "yggdra-rss"
       "yggdra-audio"
+      "yggdra-bmp"
     ]; # yggdra.duckdns.org
     tokenFile = "/root/duckdns-token";
   };

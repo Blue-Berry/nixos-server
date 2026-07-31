@@ -14,5 +14,9 @@ Switch the remote server:
 nixos-rebuild switch --flake .#server --target-host root@169.239.182.193
 ```
 
+The bmp-from-txt browser renderer is served through Caddy at
+<https://yggdra-bmp.duckdns.org>. Its application service listens only on
+`127.0.0.1:8086`.
+
 The Miniflux admin credentials file is not committed. Create it on the server at
 `/var/lib/miniflux/admin-credentials` before first start.
