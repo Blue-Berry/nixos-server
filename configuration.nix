@@ -350,6 +350,11 @@ in
           }
         }
 
+        redir /bmp-from-txt /bmp-from-txt/ 308
+        handle_path /bmp-from-txt/* {
+          reverse_proxy 127.0.0.1:8086
+        }
+
         reverse_proxy localhost:8096
       '';
       "yggdra-calibre.duckdns.org".extraConfig = ''
@@ -364,9 +369,6 @@ in
       "yggdra-audio.duckdns.org".extraConfig = ''
         reverse_proxy localhost:8082
       '';
-      "yggdra-bmp.duckdns.org".extraConfig = ''
-        reverse_proxy 127.0.0.1:8086
-      '';
     };
   };
 
@@ -378,7 +380,6 @@ in
       "yggdra-calibre"
       "yggdra-rss"
       "yggdra-audio"
-      "yggdra-bmp"
     ]; # yggdra.duckdns.org
     tokenFile = "/root/duckdns-token";
   };
