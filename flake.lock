@@ -26,16 +26,15 @@
       "locked": {
         "lastModified": 1781343949,
         "narHash": "sha256-GHZf0ax5OpVDT+7uvRIiX0aoo4LEung/xuPum20H+X0=",
-        "ref": "refs/heads/main",
+        "owner": "dbuenzli",
+        "repo": "bytesrw",
         "rev": "d62c9007aa28f8da872a9662a6e95f9979bca38b",
-        "revCount": 102,
-        "type": "git",
-        "url": "https://erratique.ch/repos/bytesrw.git"
+        "type": "github"
       },
       "original": {
-        "rev": "d62c9007aa28f8da872a9662a6e95f9979bca38b",
-        "type": "git",
-        "url": "https://erratique.ch/repos/bytesrw.git"
+        "owner": "dbuenzli",
+        "repo": "bytesrw",
+        "type": "github"
       }
     },
     "disko": {
@@ -410,16 +409,15 @@
       "locked": {
         "lastModified": 1773366124,
         "narHash": "sha256-6/01MZvXGHEt986QcHchgpHaQIwGx1Ku4KF4bOsLgpo=",
-        "ref": "refs/heads/master",
+        "owner": "dbuenzli",
+        "repo": "webs",
         "rev": "f3b4eb023678867332ad848d4c903d5147e49d71",
-        "revCount": 150,
-        "type": "git",
-        "url": "https://erratique.ch/repos/webs.git"
+        "type": "github"
       },
       "original": {
-        "rev": "f3b4eb023678867332ad848d4c903d5147e49d71",
-        "type": "git",
-        "url": "https://erratique.ch/repos/webs.git"
+        "owner": "dbuenzli",
+        "repo": "webs",
+        "type": "github"
       }
     }
   },
