@@ -318,7 +318,33 @@ in
         "/var/lib/audiobookrequest:/config"
       ];
     };
+
+    # Run the email client on demand from its systemd timer below. Host
+    # networking lets it reach Miniflux, which only listens on localhost.
+    containers.miniflux-email-client = {
+      image = "ghcr.io/skatkov/miniflux-email-client:latest";
+      autoStart = false;
+      pull = "newer";
+      environment = {
+        MINIFLUX_URL = "http://127.0.0.1:8083/";
+      };
+      environmentFiles = [ "/root/miniflux-email-client.env" ];
+      networks = [ "host" ];
+    };
   };
+
+  systemd.timers.miniflux-email-client = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 08:00:00";
+      Persistent = true;
+      Unit = "podman-miniflux-email-client.service";
+    };
+  };
+
+  # This is a scheduled one-shot job. Do not retry indefinitely on bad
+  # credentials; the next timer invocation will retry after they are fixed.
+  systemd.services.podman-miniflux-email-client.serviceConfig.Restart = lib.mkForce "no";
 
   networking.firewall.allowedTCPPorts = [
     80
