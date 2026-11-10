@@ -428,6 +428,8 @@ in
     "d /var/lib/media/movies 2770 media media - -"
   ];
 
+  programs.tmux.enable = true;
+
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
     pkgs.gitMinimal
